@@ -1,6 +1,16 @@
 Name: user.rpc
 ListenOn: 0.0.0.0:8080
+DataSource: root:lwj@1993@tcp(127.0.0.1:3306)/zhihu_go?parseTime=true
 Etcd:
   Hosts:
   - 127.0.0.1:2379
   Key: user.rpc
+
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass:
+    Type: node
+BizRedis:
+  Host: 127.0.0.1:6379
+  Pass:
+  Type: node
