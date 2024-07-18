@@ -1,41 +1,15 @@
 package xcode
 
-type Token struct {
-	AccessToken  string `json:"access_token"`
-	AccessExpire int64  `json:"access_expire"`
-}
+import (
+	"githuc.com/Sanagiig/zhihuGo/pkg/xcode/types"
+	"net/http"
+)
 
-type RegisterRequest struct {
-	Name             string `json:"name"`
-	Mobile           string `json:"mobile"`
-	Password         string `json:"password"`
-	VerificationCode string `json:"verification_code"`
-}
+func ErrHandler(err error) (int, any) {
+	code := CodeFromError(err)
 
-type RegisterResponse struct {
-	UserId int64 `json:"user_id"`
-	Token  Token `json:"token"`
-}
-
-type VerificationRequest struct {
-	Mobile string `json:"mobile"`
-}
-
-type VerificationResponse struct {
-}
-
-type LoginRequest struct {
-	Mobile           string `json:"mobile"`
-	VerificationCode string `json:"verification_code"`
-}
-
-type LoginResponse struct {
-	UserId int64 `json:"userId"`
-	Token  Token `json:"token"`
-}
-
-type UserInfoResponse struct {
-	UserId   int64  `json:"user_id"`
-	Username string `json:"username"`
-	Avatar   string `json:"avatar"`
+	return http.StatusOK, types.Status{
+		Code:    int32(code.Code()),
+		Message: code.Message(),
+	}
 }

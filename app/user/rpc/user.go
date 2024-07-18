@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	cs "github.com/zeromicro/go-zero/core/service"
+	"githuc.com/Sanagiig/zhihuGo/pkg/interceptors"
 
 	"githuc.com/Sanagiig/zhihuGo/app/user/rpc/internal/config"
 	"githuc.com/Sanagiig/zhihuGo/app/user/rpc/internal/server"
@@ -32,8 +33,11 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
-	defer s.Stop()
+
+	// 自定义拦截器
+	s.AddUnaryInterceptors(interceptors.ServerErrorInterceptor())
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
+	defer s.Stop()
 }
